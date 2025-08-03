@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EffiTrack Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #004AAD;
+      --gradient: linear-gradient(135deg, #004AAD, #00c6ff);
+      --bg-light: #f0f4fa;
+      --card-bg: #ffffff;
+      --shadow: 0 6px 16px rgba(0,0,0,0.08);
+      --reward-color: #ff9800;
+    }
+
+    body.dark-mode {
+      --bg-light: #121212;
+      --card-bg: #1e1e1e;
+      --primary: #90caf9;
+      --shadow: none;
+      color: #eee;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: var(--bg-light);
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    nav {
+      background: var(--gradient);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+      flex-wrap: wrap;
+    }
+
+    nav h1 {
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    nav .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s ease;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .reward-points {
+      background: var(--reward-color);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .toggle-btn {
+      cursor: pointer;
+      font-size: 18px;
+      background: transparent;
+      border: 2px solid white;
+      padding: 4px 10px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .dashboard-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: var(--primary);
+      text-align: center;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .card i {
+      font-size: 36px;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+
+    .card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 15px;
+      color: #555;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .card a:hover {
+      background-color: #002c73;
+    }
+
+    .chart-container {
+      background: var(--card-bg);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      height: 400px;
+      margin-top: 20px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      background: var(--gradient);
+      color: white;
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .dashboard-title {
+        font-size: 26px;
+      }
+
+      .card h3 {
+        font-size: 18px;
+      }
+
+      .card p {
+        font-size: 14px;
+      }
+    }
+    .notification-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-wrapper i {
+  font-size: 20px;
+  color: white;
+}
+
+.notif-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.notif-dropdown {
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  color: #333;
+  width: 250px;
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+  z-index: 100;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.notif-dropdown h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: var(--primary);
+}
+
+.notif-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notif-dropdown ul li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-wrapper:hover .notif-dropdown {
+  display: block;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <h1>EffiTrack Dashboard</h1>
+    <div class="nav-right">
+      <!-- Notification Bell -->
+      <div class="notification-wrapper">
+        <i class="fas fa-bell" id="notifBell"></i>
+        <span class="notif-badge" id="notifCount">3</span>
+        <div class="notif-dropdown" id="notifDropdown">
+          <h4>🔔 Notifications</h4>
+          <ul>
+            <li>New feedback from Karthik 📝</li>
+            <li>3 tasks completed by Priya ✅</li>
+            <li>Deadline alert for Project Phoenix ⚠️</li>
+          </ul>
+        </div>
+      </div>
+    
+      <button class="toggle-btn" onclick="toggleDarkMode()">🌙</button>
+      <a href="index.html">Home</a>
+      <a href="login.html">Logout</a>
+    </div>
+    
+  </nav>
+
+  <!-- Main Dashboard -->
+  <div class="container">
+    <h2 class="dashboard-title">Welcome, Admin </h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <i class="fas fa-users"></i>
+        <h3>Employees</h3>
+        <p>Manage team performance and activities</p>
+        <a href="employee-details.html">View Employees</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-gift"></i>
+        <h3>Rewards</h3>
+        <p>Track points and reward top performers</p>
+        <a href="rewards.html"> View Rewards</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-spinner"></i>
+        <h3>Ongoing Projects</h3>
+        <p>Stay on top of project progress</p>
+        <a href="ongoing-projects.html">Projects</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-tasks"></i>
+        <h3>To-Do Tasks</h3>
+        <p>Review today’s pending deliverables</p>
+        <a href="todo.html">📝 To-Do List</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-chart-line"></i>
+        <h3>Productivity</h3>
+        <p>Monitor team efficiency trends</p>
+        <a href="Productivity.html">View</a>
+
+      </div>
+      <div class="card">
+        <i class="fas fa-lightbulb"></i>
+        <h3>Smart Insights</h3>
+        <p>Automated suggestions for better performance</p>
+        <a href="smart-insights.html">Get</a>
+
+      </div>
+    </div>
+
+    <!-- Productivity Chart -->
+    <div class="chart-container">
+      <h3 style="margin-bottom: 20px; color: var(--primary); text-align: center;">📈 Team Productivity This Week</h3>
+      <canvas id="productivityChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; Crafted with ❤️ by Team XYRO | EffiTrack 2025 .</p>
+  </footer>
+
+  <!-- Chart.js Productivity Chart -->
+  <script>
+    const ctx = document.getElementById('productivityChart').getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(0, 74, 173, 0.4)');
+    gradient.addColorStop(1, 'rgba(0, 74, 173, 0.05)');
+
+    const productivityChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+        datasets: [{
+          label: 'Team Productivity (%)',
+          data: [35, 64, 50, 99, 80],
+          backgroundColor: gradient,
+          borderColor: '#004AAD',
+          borderWidth: 3,
+          tension: 0.4,
+          pointBackgroundColor: '#004AAD',
+          pointBorderColor: '#fff',
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#004AAD',
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 13 },
+            padding: 10,
+            cornerRadius: 6
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              color: 'rgba(0,0,0,0.05)',
+              borderDash: [5, 5]
+            },
+            ticks: {
+              font: { size: 13 },
+              color: '#333'
+            }
+          },
+          y: {
+            beginAtZero: true,
+            max: 100,
+            grid: {
+              color: 'rgba(0,0,0,0.05)',
+              borderDash: [5, 5]
+            },
+            ticks: {
+              stepSize: 20,
+              font: { size: 13 },
+              color: '#333'
+            }
+          }
+        }
+      }
+    });
+
+    // Toggle Dark Mode
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+  </script>
+
+</body>
+</html>

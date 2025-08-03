@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Insights - EffiTrack</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #004AAD;
+      --gradient: linear-gradient(135deg, #004AAD, #00c6ff);
+      --card-bg: #ffffff;
+      --bg-light: #f5f9ff;
+      --shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    body.dark-mode {
+      --bg-light: #121212;
+      --card-bg: #1e1e1e;
+      --primary: #90caf9;
+      color: #eee;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-light);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      transition: 0.3s;
+    }
+
+    nav {
+      background: var(--gradient);
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    nav h1 {
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    nav .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .toggle-btn {
+      cursor: pointer;
+      font-size: 18px;
+      background: transparent;
+      border: 2px solid white;
+      padding: 4px 10px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: var(--primary);
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .insight-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .insight-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .insight-card i {
+      font-size: 36px;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .insight-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .insight-card p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      background: var(--gradient);
+      color: white;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <h1>Smart Insights</h1>
+    <div class="nav-right">
+      <button class="toggle-btn" onclick="toggleDarkMode()">🌙</button>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="login.html">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h2 class="title">AI-Powered Performance Suggestions</h2>
+
+    <div class="insight-grid">
+      <div class="insight-card">
+        <i class="fas fa-bolt"></i>
+        <h3>Speed Up Deliverables</h3>
+        <p>Projects submitted before deadlines increase reward eligibility by 40%. Encourage sprint planning and daily updates.</p>
+      </div>
+
+      <div class="insight-card">
+        <i class="fas fa-chart-line"></i>
+        <h3>Boost Low Performers</h3>
+        <p>Workers with declining output for 3+ days may need support. Set up quick feedback meetings to understand bottlenecks.</p>
+      </div>
+
+      <div class="insight-card">
+        <i class="fas fa-lightbulb"></i>
+        <h3>Smart Task Allocation</h3>
+        <p>Employees completing 90%+ tasks on time are ready for higher responsibility. Consider project lead opportunities.</p>
+      </div>
+
+      <div class="insight-card">
+        <i class="fas fa-user-clock"></i>
+        <h3>Idle Time Detection</h3>
+        <p>Detected inactivity in 20% of workers during afternoon hours. Schedule light work or refreshers post-lunch.</p>
+      </div>
+
+      <div class="insight-card">
+        <i class="fas fa-heartbeat"></i>
+        <h3>Health-Oriented Scheduling</h3>
+        <p>Productivity dips after 6 PM. Encourage work-life balance by promoting early log-off and health check-ins.</p>
+      </div>
+
+      <div class="insight-card">
+        <i class="fas fa-graduation-cap"></i>
+        <h3>Upskilling Opportunity</h3>
+        <p>5 employees showed high interest in AI modules. Consider free weekend courses to build in-house expertise.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; Crafted with ❤️ by Team XYRO | EffiTrack 2025.
+         Powered by AI - Made in Tamil Nadu.</p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+  </script>
+</body>
+</html>

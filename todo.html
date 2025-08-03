@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced To-Do List</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f9;
+      padding: 20px;
+    }
+    .todo-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .todo-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .todo-header h1 {
+      font-weight: 700;
+      color: #333;
+    }
+    .quote {
+      font-style: italic;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      color: #555;
+    }
+    .todo-list {
+      list-style: none;
+      padding: 0;
+    }
+    .todo-item {
+      display: flex;
+      flex-direction: column;
+      background: white;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .todo-item.completed .task-text {
+      text-decoration: line-through;
+      color: green;
+    }
+    .task-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 5px;
+      color: #777;
+    }
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+    }
+    .btn-complete {
+      background-color: #198754;
+      color: white;
+    }
+    .link-line {
+      margin: 30px 0;
+      height: 2px;
+      background-color: #007bff;
+      border-radius: 10px;
+    }
+    .back-to-dashboard {
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 50%;
+      padding: 10px 15px;
+      font-size: 16px;
+      text-decoration: none;
+    }
+    .filter-sort {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      background: var(--gradient);
+      color: rgba(43, 40, 216, 0.942);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Back Button -->
+<a href="dashboard.html" class="back-to-dashboard">←</a>
+
+<div class="todo-container">
+  <div class="todo-header">
+    <h1>To-Do List</h1>
+    <div class="quote">🌟 "Push yourself, because no one else is going to do it for you."</div>
+    <input type="text" id="newTaskInput" class="form-control mb-2" placeholder="Task name..." />
+    <input type="datetime-local" id="deadlineInput" class="form-control mb-2" />
+    <select id="priorityInput" class="form-select mb-2">
+      <option value="Low">Low Priority</option>
+      <option value="Medium">Medium Priority</option>
+      <option value="High">High Priority</option>
+    </select>
+    <button id="addTaskButton" class="btn btn-primary w-100">Add Task</button>
+  </div>
+
+  <div class="link-line"></div>
+
+  <!-- Filters -->
+  <div class="filter-sort">
+    <select id="filterStatus" class="form-select">
+      <option value="all">All</option>
+      <option value="completed">Completed</option>
+      <option value="pending">Pending</option>
+    </select>
+    <select id="sortOption" class="form-select">
+      <option value="date">Sort by Date</option>
+      <option value="priority">Sort by Priority</option>
+    </select>
+  </div>
+
+  <!-- Task List -->
+  <ul id="todoList" class="todo-list"></ul>
+</div>
+<footer>
+  <p>&copy; Crafted with ❤️ by Team XYRO | EffiTrack 2025 .</p>
+</footer>
+<script>
+  const addTaskButton = document.getElementById("addTaskButton");
+  const newTaskInput = document.getElementById("newTaskInput");
+  const deadlineInput = document.getElementById("deadlineInput");
+  const priorityInput = document.getElementById("priorityInput");
+  const todoList = document.getElementById("todoList");
+  const filterStatus = document.getElementById("filterStatus");
+  const sortOption = document.getElementById("sortOption");
+
+  let tasks = [];
+
+  function addTask() {
+    const taskText = newTaskInput.value.trim();
+    const deadline = deadlineInput.value;
+    const priority = priorityInput.value;
+
+    if (taskText === "" || deadline === "") return;
+
+    const task = {
+      text: taskText,
+      deadline,
+      priority,
+      completed: false,
+      createdAt: new Date()
+    };
+
+    tasks.push(task);
+    newTaskInput.value = "";
+    deadlineInput.value = "";
+    renderTasks();
+  }
+
+  function toggleComplete(index) {
+    tasks[index].completed = !tasks[index].completed;
+    renderTasks();
+  }
+
+  function deleteTask(index) {
+    tasks.splice(index, 1);
+    renderTasks();
+  }
+
+  function getCountdown(deadline) {
+    const now = new Date();
+    const timeLeft = new Date(deadline) - now;
+    if (timeLeft <= 0) return "⏰ Deadline passed";
+
+    const hours = Math.floor(timeLeft / 3600000);
+    const minutes = Math.floor((timeLeft % 3600000) / 60000);
+    return `⏳ ${hours}h ${minutes}m left`;
+  }
+
+  function renderTasks() {
+    let filteredTasks = [...tasks];
+
+    // Filter by status
+    if (filterStatus.value === "completed") {
+      filteredTasks = filteredTasks.filter(task => task.completed);
+    } else if (filterStatus.value === "pending") {
+      filteredTasks = filteredTasks.filter(task => !task.completed);
+    }
+
+    // Sort by
+    if (sortOption.value === "date") {
+      filteredTasks.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+    } else if (sortOption.value === "priority") {
+      const priorityOrder = { "High": 1, "Medium": 2, "Low": 3 };
+      filteredTasks.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+    }
+
+    todoList.innerHTML = "";
+    filteredTasks.forEach((task, index) => {
+      const li = document.createElement("li");
+      li.className = "todo-item" + (task.completed ? " completed" : "");
+
+      li.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="task-text fw-bold">${task.text}</span>
+          <div>
+            <button class="btn btn-sm btn-complete me-2" onclick="toggleComplete(${index})">
+              ${task.completed ? "Undo" : "Complete"}
+            </button>
+            <button class="btn btn-sm btn-delete" onclick="deleteTask(${index})">Delete</button>
+          </div>
+        </div>
+        <div class="task-meta">
+          <span>📅 ${new Date(task.deadline).toLocaleString()}</span>
+          <span>🔥 ${task.priority}</span>
+          <span>${getCountdown(task.deadline)}</span>
+        </div>
+      `;
+      todoList.appendChild(li);
+    });
+  }
+
+  // Event Listeners
+  addTaskButton.addEventListener("click", addTask);
+  newTaskInput.addEventListener("keypress", e => e.key === "Enter" && addTask());
+  filterStatus.addEventListener("change", renderTasks);
+  sortOption.addEventListener("change", renderTasks);
+
+  // Update countdowns every 30s
+  setInterval(renderTasks, 30000);
+</script>
+
+</body>
+</html>

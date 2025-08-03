@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EffiTrack - Rewards Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <script src="https://kit.fontawesome.com/a2e0bf0b42.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f4f6f9, #e0eafc);
+      padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .reward-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .reward-header h1 {
+      font-weight: 700;
+      color: #333;
+    }
+    .summary-boxes {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .summary-box {
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      min-width: 200px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .summary-box h4 {
+      color: #555;
+    }
+    .summary-box .value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2d6cdf;
+    }
+    .employee-table {
+      margin-top: 40px;
+    }
+    .progress {
+      height: 20px;
+    }
+    .btn-claim {
+      background: #198754;
+      color: white;
+    }
+    .btn-claim:disabled {
+      background: gray;
+    }
+    .badge-top {
+      background: gold;
+      color: black;
+    }
+    .dark-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+    .back-to-dashboard {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .back-to-dashboard:hover {
+      background-color: #0056b3;
+    }
+
+    body.dark-mode {
+      background: #121212;
+      color: #f1f1f1;
+    }
+    body.dark-mode .summary-box {
+      background: #1e1e1e;
+      color: #f1f1f1;
+    }
+    body.dark-mode .summary-box .value {
+      color: #70b8ff;
+    }
+    body.dark-mode .table {
+      border-color: #444;
+    }
+    body.dark-mode .table thead {
+      background-color: #222;
+    }
+    body.dark-mode .btn-claim:disabled {
+      background: #666;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      background: var(--gradient);
+      color: rgb(26, 166, 201);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Back to Dashboard button -->
+  <button class="back-to-dashboard" onclick="window.location.href='dashboard.html'">
+    Back to Dashboard
+  </button>
+
+  <div class="dark-toggle">
+    <button class="btn btn-dark" onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+  </div>
+
+  <div class="reward-header">
+    <h1> EffiTrack Rewards</h1>
+    <p>Recognizing and celebrating consistent excellence</p>
+  </div>
+
+  <div class="summary-boxes">
+    <div class="summary-box">
+      <h4>Total Reward Budget</h4>
+      <div class="value">₹10,000</div>
+    </div>
+    <div class="summary-box">
+      <h4>Total Points Distributed</h4>
+      <div class="value">713</div>
+    </div>
+    <div class="summary-box">
+      <h4>Top Performer</h4>
+      <div class="value">Arun <span class="badge badge-top"></span></div>
+    </div>
+    <div class="summary-box">
+      <h4>Points Remaining</h4>
+      <div class="value">287</div>
+    </div>
+  </div>
+
+  <div class="employee-table">
+    <h3> Employee Rewards Status</h3>
+    <table class="table table-bordered table-hover mt-3">
+      <thead class="table-dark">
+        <tr>
+          <th>Employee Name</th>
+          <th>Department</th>
+          <th>Tasks Completed</th>
+          <th>Points</th>
+          <th>Progress</th>
+          <th>Claim</th>
+        </tr>
+      </thead>
+      <tbody id="rewards-body">
+        <!-- Employee rows will be inserted here dynamically -->
+      </tbody>
+    </table>
+  </div>
+  <footer>
+    <p>&copy; Crafted with ❤️ by Team XYRO | EffiTrack 2025 .</p>
+  </footer>
+  <script>
+    const employees = [
+      { name: "Arun", dept: "Development", tasks: 8, points: 100 },
+      { name: "Sundar", dept: "Marketing", tasks: 6, points: 65 },
+      { name: "Ramya", dept: "HR", tasks: 7, points: 72 },
+      { name: "Kumar", dept: "Development", tasks: 9, points: 95 },
+      { name: "Vinoth", dept: "Design", tasks: 5, points: 45 },
+    ];
+  
+    function loadRewards() {
+      const tbody = document.getElementById("rewards-body");
+      tbody.innerHTML = "";
+
+      employees.forEach(emp => {
+        const tr = document.createElement("tr");
+        
+        tr.innerHTML = `
+          <td>${emp.name}</td>
+          <td>${emp.dept}</td>
+          <td>${emp.tasks}</td>
+          <td><strong>${emp.points}</strong></td>
+          <td>
+            <div class="progress">
+              <div class="progress-bar ${emp.points >= 100 ? 'bg-success' : 'bg-info'}" role="progressbar" style="width: ${emp.points}%" aria-valuenow="${emp.points}" aria-valuemin="0" aria-valuemax="100">${emp.points}%</div>
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-claim btn-sm" ${emp.points < 100 ? 'disabled' : ''}>
+              ${emp.points >= 100 ? 'Claim 🎁' : 'Locked 🔒'}
+            </button>
+          </td>
+        `;
+  
+        tbody.appendChild(tr);
+      });
+    }
+  
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
+      const table = document.querySelector("table");
+      table.classList.toggle("table-dark");
+    }
+  
+    loadRewards();
+  </script>
+</body>
+</html>
