@@ -49,36 +49,10 @@
       flex-wrap: wrap;
     }
 
-    nav h1 {
-      font-size: 26px;
-      font-weight: 700;
-    }
-
-    nav .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.3s ease;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .reward-points {
-      background: var(--reward-color);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #fff;
-    }
+    nav h1 { font-size: 26px; font-weight: 700; }
+    nav .nav-right { display: flex; align-items: center; gap: 20px; }
+    nav a { color: white; text-decoration: none; font-weight: 500; transition: 0.3s ease; }
+    nav a:hover { text-decoration: underline; }
 
     .toggle-btn {
       cursor: pointer;
@@ -89,10 +63,7 @@
       border-radius: 8px;
       transition: 0.3s;
     }
-
-    .toggle-btn:hover {
-      background-color: rgba(255,255,255,0.2);
-    }
+    .toggle-btn:hover { background-color: rgba(255,255,255,0.2); }
 
     .container {
       max-width: 1200px;
@@ -123,44 +94,16 @@
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    }
-
-    .card i {
-      font-size: 36px;
-      margin-bottom: 15px;
-      color: var(--primary);
-    }
-
-    .card h3 {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .card p {
-      font-size: 15px;
-      color: #555;
-    }
-
+    .card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .card i { font-size: 36px; margin-bottom: 15px; color: var(--primary); }
+    .card h3 { font-size: 20px; font-weight: 600; margin-bottom: 10px; }
+    .card p { font-size: 15px; color: #555; }
     .card a {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 16px;
-      background: var(--primary);
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: 500;
-      transition: 0.3s;
+      display: inline-block; margin-top: 10px; padding: 8px 16px;
+      background: var(--primary); color: white; text-decoration: none;
+      border-radius: 6px; font-weight: 500; transition: 0.3s;
     }
-
-    .card a:hover {
-      background-color: #002c73;
-    }
+    .card a:hover { background-color: #002c73; }
 
     .chart-container {
       background: var(--card-bg);
@@ -170,11 +113,7 @@
       height: 400px;
       margin-top: 20px;
     }
-
-    canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
+    canvas { width: 100% !important; height: 100% !important; }
 
     footer {
       text-align: center;
@@ -185,81 +124,42 @@
       font-weight: 500;
     }
 
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .dashboard-title {
-        font-size: 26px;
-      }
-
-      .card h3 {
-        font-size: 18px;
-      }
-
-      .card p {
-        font-size: 14px;
-      }
+    /* Notifications */
+    .notification-wrapper { position: relative; cursor: pointer; }
+    .notification-wrapper i { font-size: 20px; color: white; }
+    .notif-badge {
+      position: absolute; top: -6px; right: -10px;
+      background: red; color: white; font-size: 11px;
+      padding: 2px 6px; border-radius: 50%;
     }
-    .notification-wrapper {
-  position: relative;
-  cursor: pointer;
-}
+    .notif-dropdown {
+      display: none; position: absolute; top: 30px; right: 0;
+      background: white; color: #333; width: 250px;
+      box-shadow: var(--shadow); border-radius: 8px;
+      z-index: 100; padding: 12px; font-size: 14px;
+    }
+    .notif-dropdown h4 { margin-bottom: 10px; font-size: 16px; color: var(--primary); }
+    .notif-dropdown ul { list-style: none; padding: 0; margin: 0; }
+    .notif-dropdown ul li { padding: 8px 0; border-bottom: 1px solid #eee; }
+    .notification-wrapper:hover .notif-dropdown { display: block; }
 
-.notification-wrapper i {
-  font-size: 20px;
-  color: white;
-}
-
-.notif-badge {
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  background: red;
-  color: white;
-  font-size: 11px;
-  padding: 2px 6px;
-  border-radius: 50%;
-}
-
-.notif-dropdown {
-  display: none;
-  position: absolute;
-  top: 30px;
-  right: 0;
-  background: white;
-  color: #333;
-  width: 250px;
-  box-shadow: var(--shadow);
-  border-radius: 8px;
-  z-index: 100;
-  padding: 12px;
-  font-size: 14px;
-}
-
-.notif-dropdown h4 {
-  margin-bottom: 10px;
-  font-size: 16px;
-  color: var(--primary);
-}
-
-.notif-dropdown ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.notif-dropdown ul li {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.notification-wrapper:hover .notif-dropdown {
-  display: block;
-}
-
+    /* Task list boxes */
+    .task-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .task-box {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+    .task-box h3 { color: var(--primary); margin-bottom: 15px; }
+    .task-box ul { list-style: none; padding: 0; }
+    .task-box ul li { padding: 6px 0; border-bottom: 1px solid #eee; }
+    .task-box ul li:last-child { border-bottom: none; }
   </style>
 </head>
 <body>
@@ -274,19 +174,15 @@
         <span class="notif-badge" id="notifCount">3</span>
         <div class="notif-dropdown" id="notifDropdown">
           <h4>🔔 Notifications</h4>
-          <ul>
-            <li>New feedback from Karthik 📝</li>
-            <li>3 tasks completed by Priya ✅</li>
-            <li>Deadline alert for Project Phoenix ⚠️</li>
+          <ul id="notifList">
+            <li>No new notifications</li>
           </ul>
         </div>
       </div>
-    
       <button class="toggle-btn" onclick="toggleDarkMode()">🌙</button>
       <a href="index.html">Home</a>
       <a href="login.html">Logout</a>
     </div>
-    
   </nav>
 
   <!-- Main Dashboard -->
@@ -304,7 +200,7 @@
         <i class="fas fa-gift"></i>
         <h3>Rewards</h3>
         <p>Track points and reward top performers</p>
-        <a href="rewards.html"> View Rewards</a>
+        <a href="rewards.html">View Rewards</a>
       </div>
       <div class="card">
         <i class="fas fa-spinner"></i>
@@ -323,14 +219,24 @@
         <h3>Productivity</h3>
         <p>Monitor team efficiency trends</p>
         <a href="Productivity.html">View</a>
-
       </div>
       <div class="card">
         <i class="fas fa-lightbulb"></i>
         <h3>Smart Insights</h3>
         <p>Automated suggestions for better performance</p>
         <a href="smart-insights.html">Get</a>
+      </div>
+    </div>
 
+    <!-- 🔥 Firebase Task Section -->
+    <div class="task-section">
+      <div class="task-box">
+        <h3>✅ Upcoming Tasks</h3>
+        <ul id="upcomingTasks"><li>Loading...</li></ul>
+      </div>
+      <div class="task-box">
+        <h3>⚠️ Overdue Tasks</h3>
+        <ul id="overdueTasks"><li>Loading...</li></ul>
       </div>
     </div>
 
@@ -343,7 +249,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; Crafted with ❤️ by Team XYRO | EffiTrack 2025 .</p>
+    <p>&copy; Crafted with ❤️ by Team XYRO | EffiTrack 2025.</p>
   </footer>
 
   <!-- Chart.js Productivity Chart -->
@@ -352,11 +258,10 @@
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, 'rgba(0, 74, 173, 0.4)');
     gradient.addColorStop(1, 'rgba(0, 74, 173, 0.05)');
-
     const productivityChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+        labels: ['MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY'],
         datasets: [{
           label: 'Team Productivity (%)',
           data: [35, 64, 50, 99, 80],
@@ -374,49 +279,50 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: '#004AAD',
-            titleFont: { size: 14, weight: 'bold' },
-            bodyFont: { size: 13 },
-            padding: 10,
-            cornerRadius: 6
-          }
-        },
-        scales: {
-          x: {
-            grid: {
-              color: 'rgba(0,0,0,0.05)',
-              borderDash: [5, 5]
-            },
-            ticks: {
-              font: { size: 13 },
-              color: '#333'
-            }
-          },
-          y: {
-            beginAtZero: true,
-            max: 100,
-            grid: {
-              color: 'rgba(0,0,0,0.05)',
-              borderDash: [5, 5]
-            },
-            ticks: {
-              stepSize: 20,
-              font: { size: 13 },
-              color: '#333'
-            }
-          }
-        }
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, max: 100 } }
       }
     });
-
-    // Toggle Dark Mode
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-    }
+    function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
   </script>
 
+  <!-- Firebase Tasks Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB3ecJ8jT9nqblPtorI1_tmg6pkMjJ4NmY",
+      authDomain: "effi-track-d8663.firebaseapp.com",
+      projectId: "effi-track-d8663",
+      storageBucket: "effi-track-d8663.firebasestorage.app",
+      messagingSenderId: "27511213535",
+      appId: "1:27511213535:web:ad1298f1285f03f112886a",
+      measurementId: "G-RHFY96G6EW"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    function loadTasks() {
+      const today = new Date().toISOString().split("T")[0];
+      onSnapshot(collection(db, "tasks"), (snapshot) => {
+        let upcomingHTML = "";
+        let overdueHTML = "";
+        snapshot.forEach((doc) => {
+          const task = doc.data();
+          if (!task.deadline) return;
+          if (task.deadline >= today) {
+            upcomingHTML += `<li><b>${task.title}</b> - Deadline: ${task.deadline}</li>`;
+          } else {
+            overdueHTML += `<li style="color:red;"><b>${task.title}</b> - Deadline: ${task.deadline}</li>`;
+          }
+        });
+        document.getElementById("upcomingTasks").innerHTML = upcomingHTML || "<li>No upcoming tasks</li>";
+        document.getElementById("overdueTasks").innerHTML = overdueHTML || "<li>No overdue tasks 🎉</li>";
+      });
+    }
+    loadTasks();
+  </script>
 </body>
 </html>
