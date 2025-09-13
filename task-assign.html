@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>EffiTrack - To-Do List</title>
+  <title>EffiTrack - Task Assignment</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
   <style>
     body {
@@ -11,23 +11,18 @@
       background-color: #f4f6f9;
       padding: 20px;
     }
-    .todo-container { max-width: 700px; margin: 0 auto; }
+    .todo-container { max-width: 800px; margin: 0 auto; }
     .todo-header { text-align: center; margin-bottom: 20px; }
     .todo-header h1 { font-weight: 700; color: #333; }
     .quote { font-style: italic; font-size: 1.1rem; margin-bottom: 15px; color: #555; }
-    .todo-list { list-style: none; padding: 0; }
-    .todo-item { display: flex; flex-direction: column; background: white; padding: 10px; margin: 10px 0;
+    .todo-item { display: flex; flex-direction: column; background: white; padding: 12px; margin: 10px 0;
       border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .todo-item.completed .task-text { text-decoration: line-through; color: green; }
-    .task-meta { display: flex; justify-content: space-between; font-size: 14px; margin-top: 5px; color: #777; }
+    .task-meta { display: flex; justify-content: space-between; font-size: 14px; margin-top: 6px; color: #777; flex-wrap: wrap; gap: 6px;}
     .btn-delete { background-color: #dc3545; color: white; }
     .btn-complete { background-color: #198754; color: white; }
-    .link-line { margin: 30px 0; height: 2px; background-color: #007bff; border-radius: 10px; }
     .back-to-dashboard { position: fixed; left: 20px; top: 20px; background-color: #007bff; color: white;
       border-radius: 50%; padding: 10px 15px; font-size: 16px; text-decoration: none; }
-    .filter-sort { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
-    footer { text-align: center; padding: 20px; margin-top: 50px; background: var(--gradient);
-      color: rgba(43, 40, 216, 0.942); font-weight: 500; }
   </style>
 </head>
 <body>
@@ -37,54 +32,57 @@
 
 <div class="todo-container">
   <div class="todo-header">
-    <h1>To-Do List</h1>
-    <div class="quote">🌟 "Push yourself, because no one else is going to do it for you."</div>
+    <h1>Assign Tasks</h1>
+    <div class="quote">🌟 "Teamwork divides the task and multiplies the success."</div>
+
+    <!-- Task Inputs -->
     <input type="text" id="newTaskInput" class="form-control mb-2" placeholder="Task name..." />
     <input type="datetime-local" id="deadlineInput" class="form-control mb-2" />
+
+    <!-- Priority -->
     <select id="priorityInput" class="form-select mb-2">
       <option value="Low">Low Priority</option>
       <option value="Medium">Medium Priority</option>
       <option value="High">High Priority</option>
     </select>
+
+    <!-- Assign To (dynamic employees) -->
+    <select id="employeeSelect" class="form-select mb-2">
+      <option value="">Assign to employee...</option>
+    </select>
+
     <button id="addTaskButton" class="btn btn-primary w-100">Add Task</button>
   </div>
 
-  <div class="link-line"></div>
-
-  <!-- Filters -->
-  <div class="filter-sort">
-    <select id="filterStatus" class="form-select">
-      <option value="all">All</option>
-      <option value="completed">Completed</option>
-      <option value="pending">Pending</option>
-    </select>
-    <select id="sortOption" class="form-select">
-      <option value="date">Sort by Date</option>
-      <option value="priority">Sort by Priority</option>
-    </select>
-  </div>
-
   <!-- Task List -->
-  <ul id="todoList" class="todo-list"></ul>
+  <ul id="todoList" class="list-unstyled mt-4"></ul>
 </div>
-
-<footer>
-  <p>&copy; Crafted with ❤️ by Team XYRO | EffiTrack 2025.</p>
-</footer>
 
 <!-- Firebase + Tasks integration -->
 <script type="module">
   import { addTask, updateTask, deleteTask, subscribeTasks, isOverdue } from "./js/tasks.js";
+  import { db } from "./js/firebase.js";
+  import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
   const addTaskButton = document.getElementById("addTaskButton");
   const newTaskInput = document.getElementById("newTaskInput");
   const deadlineInput = document.getElementById("deadlineInput");
   const priorityInput = document.getElementById("priorityInput");
+  const employeeSelect = document.getElementById("employeeSelect");
   const todoList = document.getElementById("todoList");
-  const filterStatus = document.getElementById("filterStatus");
-  const sortOption = document.getElementById("sortOption");
 
   let tasks = [];
+  let employees = [];
+
+  // Fetch employees from Firestore
+  async function loadEmployees() {
+    const snapshot = await getDocs(collection(db, "employeeDetails"));
+    employees = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    employeeSelect.innerHTML = `<option value="">Assign to employee...</option>`;
+    employees.forEach(emp => {
+      employeeSelect.innerHTML += `<option value="${emp.id}">${emp.name} (${emp.role || "Employee"})</option>`;
+    });
+  }
 
   function getCountdown(deadline) {
     if (!deadline) return "";
@@ -99,25 +97,13 @@
 
   function renderTasks(allTasks) {
     tasks = [...allTasks];
-
-    let filtered = [...tasks];
-    if (filterStatus.value === "completed") {
-      filtered = filtered.filter(t => t.status === "completed");
-    } else if (filterStatus.value === "pending") {
-      filtered = filtered.filter(t => t.status !== "completed");
-    }
-
-    if (sortOption.value === "date") {
-      filtered.sort((a, b) => new Date(a.deadline || 0) - new Date(b.deadline || 0));
-    } else if (sortOption.value === "priority") {
-      const order = { High: 1, Medium: 2, Low: 3 };
-      filtered.sort((a, b) => (order[a.priority] || 99) - (order[b.priority] || 99));
-    }
-
     todoList.innerHTML = "";
-    filtered.forEach((t) => {
+    tasks.forEach((t) => {
       const li = document.createElement("li");
       li.className = "todo-item" + (t.status === "completed" ? " completed" : "");
+
+      const emp = employees.find(e => e.id === t.assignedTo) || { name: "Unknown" };
+
       li.innerHTML = `
         <div class="d-flex justify-content-between align-items-center">
           <span class="task-text fw-bold">${t.title}</span>
@@ -131,6 +117,7 @@
         <div class="task-meta">
           <span>📅 ${t.deadline ? new Date(t.deadline).toLocaleString() : "No deadline"}</span>
           <span>🔥 ${t.priority || "-"}</span>
+          <span>👤 ${emp.name}</span>
           <span>${getCountdown(t.deadline)}</span>
         </div>
       `;
@@ -146,24 +133,30 @@
     });
   }
 
-  // Event Listeners
+  // Add new task
   addTaskButton.addEventListener("click", async () => {
     const title = newTaskInput.value.trim();
     const deadline = deadlineInput.value;
     const priority = priorityInput.value;
-    if (!title || !deadline) return alert("Please enter task and deadline");
-    await addTask({ title, deadlineISO: deadline, description: "", assignedTo: "", priority });
-    newTaskInput.value = ""; deadlineInput.value = "";
+    const assignedTo = employeeSelect.value;
+
+    if (!title || !deadline || !assignedTo) return alert("Please fill all fields (task, deadline, employee)");
+
+    await addTask({ 
+      title, 
+      deadlineISO: deadline, 
+      description: "", 
+      assignedTo, 
+      priority 
+    });
+
+    newTaskInput.value = ""; deadlineInput.value = ""; employeeSelect.value = "";
   });
 
-  filterStatus.addEventListener("change", () => renderTasks(tasks));
-  sortOption.addEventListener("change", () => renderTasks(tasks));
-  setInterval(() => renderTasks(tasks), 30000);
-
-  // Subscribe realtime
+  // Subscribe to real-time updates
   subscribeTasks(renderTasks);
+  loadEmployees();
 </script>
 
 </body>
 </html>
-
