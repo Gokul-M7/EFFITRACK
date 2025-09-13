@@ -358,6 +358,62 @@
       <a href="#"><i class="fab fa-linkedin-in"></i></a>
     </div>
   </footer>
+  <!-- Firebase Setup -->
+<script type="module">
+  // Import Firebase core + services
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  // ✅ Your Firebase config (from console)
+  const firebaseConfig = {
+    apiKey: "AIzaSyB3ecJ8jT9nqblPtorI1_tmg6pkMjJ4NmY",
+    authDomain: "effi-track-d8663.firebaseapp.com",
+    projectId: "effi-track-d8663",
+    storageBucket: "effi-track-d8663.firebasestorage.app",
+    messagingSenderId: "27511213535",
+    appId: "1:27511213535:web:ad1298f1285f03f112886a",
+    measurementId: "G-RHFY96G6EW"
+  };
+
+  // ✅ Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  console.log("🔥 Firebase connected successfully");
+
+  // ✅ Example: Add a test task into Firestore
+  async function addTestTask() {
+    try {
+      const docRef = await addDoc(collection(db, "tasks"), {
+        title: "Demo Task",
+        assignedTo: "employee01",
+        deadline: new Date("2025-09-15T17:00:00"),
+        status: "ongoing",
+        createdAt: new Date()
+      });
+      console.log("✅ Task added with ID:", docRef.id);
+    } catch (e) {
+      console.error("❌ Error adding task:", e);
+    }
+  }
+
+  // ✅ Example: Fetch tasks
+  async function getTasks() {
+    const querySnapshot = await getDocs(collection(db, "tasks"));
+    querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} =>`, doc.data());
+    });
+  }
+
+  // Run a quick test
+  addTestTask();   // Adds one demo task
+  getTasks();      // Reads all tasks
+</script>
+
 
 </body>
 
