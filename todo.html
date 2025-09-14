@@ -128,28 +128,32 @@
     });
   }
 
-  // ✅ Add new task
+  // ✅ Add new task with employee reference
   addTaskButton.addEventListener("click", async () => {
     const title = newTaskInput.value.trim();
     const deadline = deadlineInput.value;
     const priority = priorityInput.value;
-    const assignedTo = employeeSelect.value;
+    const assignedTo = employeeSelect.value; // employee doc ID
 
-    if (!title || !deadline || !assignedTo) return alert("Please fill all fields (task, deadline, employee)");
+    if (!title || !deadline || !assignedTo) {
+      return alert("Please fill all fields (task, deadline, employee)");
+    }
 
     const emp = employees.find(e => e.id === assignedTo);
 
     await addDoc(collection(db, "tasks"), { 
-      title, 
-      deadline, 
-      priority, 
-      assignedTo,
-      assignedToName: emp?.name || "Unknown",
+      title,
+      deadline,
+      priority,
+      assignedTo,       // 🔹 Save employee reference (ID)
+      assignedToName: emp?.name || "Unknown", // For quick display
       status: "pending",
       createdAt: new Date()
     });
 
-    newTaskInput.value = ""; deadlineInput.value = ""; employeeSelect.value = "";
+    newTaskInput.value = "";
+    deadlineInput.value = "";
+    employeeSelect.value = "";
   });
 
   // ✅ Real-time subscription
