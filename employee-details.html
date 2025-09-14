@@ -12,254 +12,118 @@
       --gradient: linear-gradient(135deg, #004AAD, #00c6ff);
       --bg-light: #f5f7fb;
       --card-bg: #ffffff;
-      --card-shadow: rgba(0, 0, 0, 0.1);
       --border-radius: 16px;
-      --text-primary: #222;
-      --spacing: 24px;
-      --status-active: #3c763d;
-      --status-on-leave: #d9534f; /* Red for "On Leave" */
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    body {
-      background: var(--bg-light);
-      color: var(--text-primary);
-      font-size: 16px;
-      line-height: 1.6;
-    }
-
-    nav {
-      background: var(--gradient);
-      color: white;
-      padding: var(--spacing) 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    nav h1 {
-      font-size: 28px;
-      font-weight: 700;
-    }
-
-    nav a {
-      color: white;
-      margin-left: 30px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.3s ease;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: var(--spacing) auto;
-      padding: 0 var(--spacing);
-    }
-
-    .employee-title {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 30px;
-      color: var(--primary);
-      text-align: center;
-    }
-
-    .employee-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 30px;
-      justify-items: center;
-      margin-top: 40px;
-    }
-
-    .employee-card {
-      background: var(--card-bg);
-      padding: 30px;
-      border-radius: var(--border-radius);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-align: center;
-      position: relative;
-      width: 100%;
-      max-width: 400px;
-      height: 100%;
-    }
-
-    .employee-card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-    }
-
-    .employee-card img {
-      width: 140px;
-      height: 140px;
-      margin-bottom: 25px;
-      object-fit: cover;
-      border: 4px solid var(--primary);
-      transition: transform 0.3s ease;
-    }
-
-    .employee-card:hover img {
-      transform: scale(1.1);
-    }
-
-    .employee-card h3 {
-      font-size: 26px;
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 12px;
-    }
-
-    .employee-card p {
-      font-size: 16px;
-      color: #555;
-      margin: 8px 0;
-    }
-
-    .employee-card .details {
-      font-size: 15px;
-      color: #777;
-      display: flex;
-      align-items: center;
-      margin: 12px 0;
-      justify-content: center;
-    }
-
-    .employee-card .details i {
-      margin-right: 10px;
-      color: var(--primary);
-    }
-
-    .employee-card .status {
-      background-color: #e3f9e5;
-      color: var(--status-active);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 15px;
-      margin-top: 18px;
-    }
-
-    .employee-card .status.on-leave {
-      background-color: #f2dede;
-      color: var(--status-on-leave);
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      margin-top: 50px;
-      background: var(--gradient);
-      color: white;
-      font-weight: 500;
-    }
-
+    body { font-family: 'Poppins', sans-serif; background: var(--bg-light); margin: 0; }
+    nav { background: var(--gradient); color: white; padding: 16px 40px; display: flex; justify-content: space-between; }
+    nav a { color: white; margin-left: 20px; text-decoration: none; }
+    .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+    .employee-title { font-size: 32px; color: var(--primary); text-align: center; margin-bottom: 20px; }
+    .employee-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .employee-card { background: var(--card-bg); padding: 20px; border-radius: var(--border-radius); text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .employee-card img { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 12px; object-fit: cover; border: 3px solid var(--primary); }
+    .status { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 14px; margin-top: 8px; }
+    .status.active { background: #e3f9e5; color: #3c763d; }
+    .status.on-leave { background: #f2dede; color: #d9534f; }
+    form { background: #fff; padding: 20px; border-radius: var(--border-radius); margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    form input, form select { display: block; width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; }
+    form button { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; }
+    footer { text-align: center; background: var(--gradient); color: white; padding: 20px; margin-top: 40px; }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav>
     <h1>EffiTrack Dashboard</h1>
-    <div>
-      <a href="dashboard.html">Back to Dashboard</a>
-    </div>
+    <a href="dashboard.html">Back to Dashboard</a>
   </nav>
 
-  <!-- Employee Details -->
   <div class="container">
     <h2 class="employee-title">Employee Details</h2>
 
-    <div class="employee-grid">
+    <!-- Add Employee Form -->
+    <form id="employeeForm">
+      <input type="text" id="name" placeholder="Employee Name" required />
+      <input type="text" id="role" placeholder="Role" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="text" id="mobile" placeholder="Mobile" required />
+      <input type="date" id="joinedOn" required />
+      <select id="status">
+        <option value="Active">Active</option>
+        <option value="On Leave">On Leave</option>
+      </select>
+      <input type="url" id="photoUrl" placeholder="Photo URL (optional)" />
+      <button type="submit">Add Employee</button>
+    </form>
 
-      <!-- Employee 1 -->
-      <div class="employee-card">
-        <img src="https://via.placeholder.com/140" alt="Employee Photo" />
-        <h3>Venkatesh Kumar</h3>
-        <p><strong>Role:</strong> Senior Developer</p>
-        <div class="details"><i class="fa fa-calendar"></i><span>Joined on: 1st January 2020</span></div>
-        <div class="details"><i class="fa fa-envelope"></i><span>Email: venkatesh.kumar@example.com</span></div>
-        <div class="details"><i class="fa fa-phone"></i><span>Mobile: +91 9876543210</span></div>
-        <div class="status">Active</div>
-        <a href="#" class="btn">Edit Employee</a>
-      </div>
-
-      <!-- Employee 2 -->
-      <div class="employee-card">
-        <img src="https://via.placeholder.com/140" alt="Employee Photo" />
-        <h3>Priya Reddy</h3>
-        <p><strong>Role:</strong> Product Manager</p>
-        <div class="details"><i class="fa fa-calendar"></i><span>Joined on: 15th March 2021</span></div>
-        <div class="details"><i class="fa fa-envelope"></i><span>Email: priya.reddy@example.com</span></div>
-        <div class="details"><i class="fa fa-phone"></i><span>Mobile: +91 9123456789</span></div>
-        <div class="status on-leave">On Leave</div>
-        <a href="#" class="btn">Edit Employee</a>
-      </div>
-
-      <!-- Employee 3 -->
-      <div class="employee-card">
-        <img src="https://via.placeholder.com/140" alt="Employee Photo" />
-        <h3>Ravi Shankar</h3>
-        <p><strong>Role:</strong> UI/UX Designer</p>
-        <div class="details"><i class="fa fa-calendar"></i><span>Joined on: 20th June 2019</span></div>
-        <div class="details"><i class="fa fa-envelope"></i><span>Email: ravi.shankar@example.com</span></div>
-        <div class="details"><i class="fa fa-phone"></i><span>Mobile: +91 9976543210</span></div>
-        <div class="status">Active</div>
-        <a href="#" class="btn">Edit Employee</a>
-      </div>
-
-      <!-- Employee 4 -->
-      <div class="employee-card">
-        <img src="https://via.placeholder.com/140" alt="Employee Photo" />
-        <h3>Divya Suresh</h3>
-        <p><strong>Role:</strong> Marketing Specialist</p>
-        <div class="details"><i class="fa fa-calendar"></i><span>Joined on: 10th February 2022</span></div>
-        <div class="details"><i class="fa fa-envelope"></i><span>Email: divya.suresh@example.com</span></div>
-        <div class="details"><i class="fa fa-phone"></i><span>Mobile: +91 9001234567</span></div>
-        <div class="status">Active</div>
-        <a href="#" class="btn">Edit Employee</a>
-      </div>
-       <!-- Employee 5 -->
-       <div class="employee-card">
-        <img src="https://via.placeholder.com/120" alt="Employee Photo" />
-        <h3>Arvind Raj</h3>
-        <p><strong>Role:</strong> Backend Developer</p>
-        <div class="details"><i class="fa fa-calendar"></i><span>Joined on: 5th April 2023</span></div>
-        <div class="details"><i class="fa fa-envelope"></i><span>Email: arvind.raj@example.com</span></div>
-        <div class="details"><i class="fa fa-phone"></i><span>Mobile: +91 8887654321</span></div>
-        <div class="status">Active</div>
-        <a href="#" class="btn">Edit Employee</a>
-      </div>
-
-      <!-- Employee 6 -->
-      <div class="employee-card">
-        <img src="https://via.placeholder.com/120" alt="Employee Photo" />
-        <h3>Arjun</h3>
-        <p><strong>Role:</strong> Designer </p>
-        <div class="details"><i class="fa fa-calendar"></i><span>Joined on: 8th April 2023</span></div>
-        <div class="details"><i class="fa fa-envelope"></i><span>Email: arjun@example.com</span></div>
-        <div class="details"><i class="fa fa-phone"></i><span>Mobile: +91 8807654321</span></div>
-        <div class="status on-leave">On Leave</div>
-        <a href="#" class="btn">Edit Employee</a>
-      </div>
-
-
-    </div>
+    <!-- Employee Grid -->
+    <div class="employee-grid" id="employeeGrid"></div>
   </div>
 
-  <!-- Footer -->
   <footer>
-    <p>&copy; Crafted with ❤️ by Team XYRO | EffiTrack 2025 .</p>
+    <p>&copy; Crafted with ❤️ by Team XYRO | EffiTrack 2025.</p>
   </footer>
 
+  <!-- Firebase + Firestore -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB3ecJ8jT9nqblPtorI1_tmg6pkMjJ4NmY",
+      authDomain: "effi-track-d8663.firebaseapp.com",
+      projectId: "effi-track-d8663",
+      storageBucket: "effi-track-d8663.firebasestorage.app",
+      messagingSenderId: "27511213535",
+      appId: "1:27511213535:web:ad1298f1285f03f112886a",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById("employeeForm");
+    const grid = document.getElementById("employeeGrid");
+
+    // Add Employee
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        name: form.name.value,
+        role: form.role.value,
+        email: form.email.value,
+        mobile: form.mobile.value,
+        joinedOn: form.joinedOn.value,
+        status: form.status.value,
+        photoUrl: form.photoUrl.value || "https://via.placeholder.com/140",
+      };
+      await addDoc(collection(db, "employeeDetails"), data);
+      form.reset();
+    });
+
+    // Render Employees
+    function renderEmployees(employees) {
+      grid.innerHTML = "";
+      employees.forEach(emp => {
+        const div = document.createElement("div");
+        div.className = "employee-card";
+        div.innerHTML = `
+          <img src="${emp.photoUrl}" alt="${emp.name}" />
+          <h3>${emp.name}</h3>
+          <p><strong>Role:</strong> ${emp.role}</p>
+          <p><i class="fa fa-envelope"></i> ${emp.email}</p>
+          <p><i class="fa fa-phone"></i> ${emp.mobile}</p>
+          <p><i class="fa fa-calendar"></i> Joined on: ${emp.joinedOn}</p>
+          <div class="status ${emp.status === "On Leave" ? "on-leave" : "active"}">${emp.status}</div>
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    // Listen Realtime
+    onSnapshot(collection(db, "employeeDetails"), (snapshot) => {
+      const employees = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      renderEmployees(employees);
+    });
+  </script>
 </body>
 </html>
