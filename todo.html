@@ -75,13 +75,23 @@
   let employees = [];
 
   // ✅ Load employees from Firestore
-  async function loadEmployees() {
+ async function loadEmployees() {
+  try {
     const snapshot = await getDocs(collection(db, "employees"));
+    console.log("Employees snapshot:", snapshot.size);
+
     employees = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    console.log("Loaded employees:", employees);
+
     employeeSelect.innerHTML = `<option value="">Assign to employee...</option>`;
     employees.forEach(emp => {
       employeeSelect.innerHTML += `<option value="${emp.id}">${emp.name} (${emp.role || "Employee"})</option>`;
     });
+  } catch (err) {
+    console.error("Error loading employees:", err);
+  }
+}
+
   }
 
   // ✅ Render tasks
