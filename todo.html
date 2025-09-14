@@ -60,9 +60,10 @@
 
 <!-- Firebase + Tasks integration -->
 <script type="module">
-  import { addTask, updateTask, deleteTask, subscribeTasks, isOverdue } from "./js/tasks.js";
   import { db } from "./js/firebase.js";
-  import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+  import { 
+    collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot 
+  } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
   const addTaskButton = document.getElementById("addTaskButton");
   const newTaskInput = document.getElementById("newTaskInput");
@@ -71,12 +72,11 @@
   const employeeSelect = document.getElementById("employeeSelect");
   const todoList = document.getElementById("todoList");
 
-  let tasks = [];
   let employees = [];
 
-  // Fetch employees from Firestore
+  // ✅ Load employees from Firestore
   async function loadEmployees() {
-    const snapshot = await getDocs(collection(db, "employeeDetails"));
+    const snapshot = await getDocs(collection(db, "employees"));
     employees = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     employeeSelect.innerHTML = `<option value="">Assign to employee...</option>`;
     employees.forEach(emp => {
@@ -84,21 +84,11 @@
     });
   }
 
-  function getCountdown(deadline) {
-    if (!deadline) return "";
-    const now = new Date();
-    const timeLeft = new Date(deadline) - now;
-    if (timeLeft <= 0) return "⏰ Deadline passed";
-
-    const hours = Math.floor(timeLeft / 3600000);
-    const minutes = Math.floor((timeLeft % 3600000) / 60000);
-    return `⏳ ${hours}h ${minutes}m left`;
-  }
-
-  function renderTasks(allTasks) {
-    tasks = [...allTasks];
+  // ✅ Render tasks
+  function renderTasks(snapshot) {
     todoList.innerHTML = "";
-    tasks.forEach((t) => {
+    snapshot.forEach(docSnap => {
+      const t = { id: docSnap.id, ...docSnap.data() };
       const li = document.createElement("li");
       li.className = "todo-item" + (t.status === "completed" ? " completed" : "");
 
@@ -118,22 +108,27 @@
           <span>📅 ${t.deadline ? new Date(t.deadline).toLocaleString() : "No deadline"}</span>
           <span>🔥 ${t.priority || "-"}</span>
           <span>👤 ${emp.name}</span>
-          <span>${getCountdown(t.deadline)}</span>
         </div>
       `;
-      if (isOverdue(t)) li.style.borderLeft = "4px solid #e74c3c";
       todoList.appendChild(li);
 
+      // ✅ Complete / Undo
       li.querySelector(".btn-complete").addEventListener("click", async () => {
-        await updateTask(t.id, { status: t.status === "completed" ? "pending" : "completed" });
+        await updateDoc(doc(db, "tasks", t.id), { 
+          status: t.status === "completed" ? "pending" : "completed" 
+        });
       });
+
+      // ✅ Delete
       li.querySelector(".btn-delete").addEventListener("click", async () => {
-        if (confirm("Delete this task?")) await deleteTask(t.id);
+        if (confirm("Delete this task?")) {
+          await deleteDoc(doc(db, "tasks", t.id));
+        }
       });
     });
   }
 
-  // Add new task
+  // ✅ Add new task
   addTaskButton.addEventListener("click", async () => {
     const title = newTaskInput.value.trim();
     const deadline = deadlineInput.value;
@@ -142,19 +137,25 @@
 
     if (!title || !deadline || !assignedTo) return alert("Please fill all fields (task, deadline, employee)");
 
-    await addTask({ 
+    const emp = employees.find(e => e.id === assignedTo);
+
+    await addDoc(collection(db, "tasks"), { 
       title, 
-      deadlineISO: deadline, 
-      description: "", 
-      assignedTo, 
-      priority 
+      deadline, 
+      priority, 
+      assignedTo,
+      assignedToName: emp?.name || "Unknown",
+      status: "pending",
+      createdAt: new Date()
     });
 
     newTaskInput.value = ""; deadlineInput.value = ""; employeeSelect.value = "";
   });
 
-  // Subscribe to real-time updates
-  subscribeTasks(renderTasks);
+  // ✅ Real-time subscription
+  onSnapshot(collection(db, "tasks"), renderTasks);
+
+  // Load employees on start
   loadEmployees();
 </script>
 
