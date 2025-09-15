@@ -2,222 +2,274 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EffiTrack - Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EffiTrack - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
 
-        body {
-            background: linear-gradient(135deg, #00c6ff, #0072ff);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    body {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-        header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        header h1 {
-            font-size: 28px;
-            color: #fff;
-        }
+    header h1 {
+      font-size: 28px;
+      color: #fff;
+    }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 15px;
-        }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+    }
 
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
 
-        nav ul li a:hover {
-            color: #ffd700;
-        }
+    nav ul li a:hover {
+      color: #ffd700;
+    }
 
-        #login-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-            flex: 1;
-        }
+    #login-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      flex: 1;
+    }
 
-        .login-container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 40px;
-            width: 100%;
-            max-width: 800px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            color: #fff;
-        }
+    .login-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 800px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      color: #fff;
+    }
 
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        .login-container p {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
+    .login-container p {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
 
-        .login-form {
-            margin-bottom: 40px;
-        }
+    .login-form {
+      margin-bottom: 40px;
+    }
 
-        .login-form h3 {
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
+    .login-form h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
 
-        .login-form form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    .login-form form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
 
-        .login-form label {
-            font-size: 14px;
-        }
+    .login-form label {
+      font-size: 14px;
+    }
 
-        .login-form input {
-            padding: 10px 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-        }
+    .login-form input {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+    }
 
-        .btn-login, .btn-reset {
-            margin-top: 10px;
-            background: #ffd700;
-            color: #000;
-            border: none;
-            padding: 12px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
+    .btn-login,
+    .btn-reset {
+      margin-top: 10px;
+      background: #ffd700;
+      color: #000;
+      border: none;
+      padding: 12px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
 
-        .btn-login:hover,
-        .btn-reset:hover {
-            background-color: #ffeb3b;
-        }
+    .btn-login:hover,
+    .btn-reset:hover {
+      background-color: #ffeb3b;
+    }
 
-        #forgot-password {
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
-            text-align: center;
-        }
+    #forgot-password {
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      text-align: center;
+    }
 
-        .forgot-password-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
+    .forgot-password-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-        .forgot-password-container form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
+    .forgot-password-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
 
-        .forgot-password-container input {
-            padding: 10px 14px;
-            border: none;
-            border-radius: 8px;
-        }
+    .forgot-password-container input {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+    }
 
-        @media (max-width: 768px) {
-            .login-container {
-                padding: 20px;
-            }
+    #errorMsg {
+      text-align: center;
+      color: #ff4d4d;
+      margin-top: 10px;
+      font-weight: bold;
+    }
 
-            .login-form {
-                margin-bottom: 30px;
-            }
-        }
-    </style>
+    @media (max-width: 768px) {
+      .login-container {
+        padding: 20px;
+      }
+
+      .login-form {
+        margin-bottom: 30px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <h1>EffiTrack</h1>
-        </div>
-        <nav>
-            <ul id="navLinks">
-                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <div class="logo">
+      <h1>EffiTrack</h1>
+    </div>
+    <nav>
+      <ul id="navLinks">
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <section id="login-section">
-        <div class="login-container">
-            <h2>Login to EffiTrack</h2>
-            <p>Choose your role to login</p>
+  <section id="login-section">
+    <div class="login-container">
+      <h2>Login to EffiTrack</h2>
+      <p>Use your registered email & password</p>
 
-            <div class="login-form admin-form">
-                <h3><i class="fas fa-user-shield"></i> Admin Login</h3>
-                <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
-                    <label for="admin-username"><i class="fas fa-user"></i> Username</label>
-                    <input type="text" id="admin-username" placeholder="Enter Admin Username" required />
-                    <label for="admin-password"><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="admin-password" placeholder="Enter Password" required />
-                    <button type="submit" class="btn-login">Login as Admin</button>
-                </form>
-            </div>
+      <div class="login-form">
+        <form id="loginForm">
+          <label for="email"><i class="fas fa-user"></i> Email</label>
+          <input type="email" id="email" placeholder="Enter Email" required />
+          <label for="password"><i class="fas fa-lock"></i> Password</label>
+          <input type="password" id="password" placeholder="Enter Password" required />
+          <button type="submit" class="btn-login">Login</button>
+        </form>
+        <p id="errorMsg"></p>
+      </div>
+    </div>
+  </section>
 
-            <div class="login-form employee-form">
-                <h3><i class="fas fa-user-tie"></i> Employee Login</h3>
-                <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
-                    <label for="employee-username"><i class="fas fa-user"></i> Username</label>
-                    <input type="text" id="employee-username" placeholder="Enter Employee Username" required />
-                    <label for="employee-password"><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="employee-password" placeholder="Enter Password" required />
-                    <button type="submit" class="btn-login">Login as Employee</button>
-                </form>
-            </div>
-        </div>
-    </section>
+  <section id="forgot-password">
+    <div class="forgot-password-container">
+      <h3><i class="fas fa-key"></i> Forgot Password?</h3>
+      <p>Enter your email to receive the reset link</p>
+      <form id="resetForm">
+        <label for="resetEmail"><i class="fas fa-envelope"></i> Email Address</label>
+        <input type="email" id="resetEmail" placeholder="Enter your email" required />
+        <button type="submit" class="btn-reset">Send Reset Link</button>
+      </form>
+    </div>
+  </section>
 
-    <section id="forgot-password">
-        <div class="forgot-password-container">
-            <h3><i class="fas fa-key"></i> Forgot Password?</h3>
-            <p>Enter your email to receive the reset link</p>
-            <form>
-                <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required />
-                <button type="submit" class="btn-reset">Send Reset Link</button>
-            </form>
-        </div>
-    </section>
+  <!-- Firebase -->
+  <script type="module">
+    import { app, db, auth } from "./js/firebase.js";
+    import {
+      signInWithEmailAndPassword,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+    const loginForm = document.getElementById("loginForm");
+    const resetForm = document.getElementById("resetForm");
+    const errorMsg = document.getElementById("errorMsg");
+
+    // Login
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Check role from Firestore
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const role = userDoc.data().role;
+          if (role === "admin") {
+            window.location.href = "dashboard.html";
+          } else if (role === "employee") {
+            window.location.href = "employee-dashboard.html";
+          } else {
+            errorMsg.innerText = "Role not assigned!";
+          }
+        } else {
+          errorMsg.innerText = "User record missing in database!";
+        }
+      } catch (err) {
+        errorMsg.innerText = err.message;
+      }
+    });
+
+      
+
+    // Reset Password
+    resetForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("resetEmail").value;
+      try {
+        await sendPasswordResetEmail(auth, email);
+        alert("Reset link sent to your email.");
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  </script>
 </body>
-
 </html>
